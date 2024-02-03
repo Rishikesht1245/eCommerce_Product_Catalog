@@ -1,10 +1,15 @@
+import { lazy } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
+  const HomePage = lazy(() => import("./pages/HomePage"));
+  const CatalogPage = lazy(() => import("./pages/CatalogPage"));
   return (
-    <>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<CatalogPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
