@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+type UseAuthDataReturnType = [
+  boolean,
+  (value: boolean, action: "login" | "logout") => null
+];
 
-const useAuthData = () => {
-  const [auth, setAuth] = useState<Boolean>(false);
+const useAuthData = (): UseAuthDataReturnType => {
+  const [auth, setAuth] = useState<boolean>(false);
 
   useEffect(() => {
     const isAuth: boolean = JSON.parse(localStorage.getItem("auth")!);
