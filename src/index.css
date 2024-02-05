@@ -1,3 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=Roboto:wght@100;300;400;500;700;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+  }
+  h1 {
+    @apply font-semibold tracking-wider 2xl:text-[140px] md:text-[110px] sm:text-[64px] text-[48px] leading-[80px] md:leading-[120px];
+  }
+  h5 {
+    @apply font-[700] 2xl:text-[24px] text-[20px] leading-[24px];
+  }
+  h6 {
+    @apply font-[700] text-[16px] leading-[20px] text-secondary;
+  }
+
+  p {
+    @apply font-[400] 2xl:text-[16px] text-[14px] leading-[20px] text-secondary;
+  }
+}
+
+/* .section-container {
+  @apply w-full lg:max-w-[1136px] mx-auto p-[18px] 2xl:p-0;
+}
+
+.brand-logo {
+  @apply w-[94px] h-[35px];
+} */

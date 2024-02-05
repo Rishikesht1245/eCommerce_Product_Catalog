@@ -26,11 +26,11 @@ const Header = ({ isAuth }: Props) => {
 
           {/* Search Form */}
           <form
-            className="bg-slate-100 px-3 py-2 rounded-lg flex items-center w-full justify-start"
+            className="bg-slate-100 px-3 py-2 rounded-lg flex items-center w-full justify-between"
             onSubmit={handleSubmit}
           >
             <input
-              type="text"
+              type="search"
               placeholder="Search..."
               className="bg-transparent focus:outline-none w-24 sm:w-44 lg:w-64 text-slate-600"
               value={searchTerm}
@@ -127,7 +127,7 @@ const Header = ({ isAuth }: Props) => {
 
       {/* Small devices left nav bar */}
       <div
-        className={`md:hidden w-[80%] px-4 h-full py-4 bg-slate-200 rounded-md z-40 absolute left-0 top-14 transition-all duration-700 ${
+        className={`md:hidden fixed w-[80%] px-4 h-full py-4 bg-slate-200 rounded-md z-40 left-0 top-16 transition-all duration-700 ${
           toggleMobile ? "translate-x-[0px]" : "-translate-x-[100%]"
         }`}
       >
