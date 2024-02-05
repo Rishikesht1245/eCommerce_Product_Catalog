@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Loader from "./componenets/UI/Loader";
 import UserLayout from "./layouts/UserLayout";
+import SingleProductPage from "./pages/SingleProductPage";
+
 function App() {
   const HomePage = lazy(() => import("./pages/HomePage"));
   const CatalogPage = lazy(() => import("./pages/CatalogPage"));
@@ -34,6 +36,22 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 <CatalogPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/products"
+            element={
+              <Suspense fallback={<Loader />}>
+                <CatalogPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/products/:id"
+            element={
+              <Suspense fallback={<Loader />}>
+                <SingleProductPage />
               </Suspense>
             }
           />
