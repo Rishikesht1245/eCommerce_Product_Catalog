@@ -97,7 +97,7 @@ const Header = ({ isAuth }: Props) => {
                 </NavLink>
               ) : (
                 <NavLink
-                  to="/sign-in"
+                  to="/login"
                   className={(navClass) =>
                     navClass.isActive
                       ? "text-slate-700 text-14px sm:text-[16px] font-semibold hover:text-black"
