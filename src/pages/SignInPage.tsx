@@ -10,6 +10,7 @@ const SignInPage = () => {
   if (auth) return <Navigate to={`/`} />;
 
   const loginHandler = (auth: boolean) => {
+    console.log(auth);
     setAuthData(auth, "login");
   };
 
