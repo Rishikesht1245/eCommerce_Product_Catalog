@@ -25,11 +25,9 @@ const SingleProductPage = () => {
   }, [dispatch, params?.id]);
 
   //   accessing the product data from store
-  const {
-    product: currentProduct,
-    loading,
-    error,
-  }: ProductState = useSelector((state: RootState) => state.singleProduct);
+  const { product: currentProduct, loading }: ProductState = useSelector(
+    (state: RootState) => state.singleProduct
+  );
 
   const productsInCart: CartProduct[] = useSelector(
     (state: RootState) => state.cart.products
