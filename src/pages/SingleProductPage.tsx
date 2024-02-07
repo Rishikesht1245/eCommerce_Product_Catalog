@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchSingleProduct } from "../store/productSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewSlider from "../componenets/UI/ReviewSlider";
@@ -33,9 +33,6 @@ const SingleProductPage = () => {
     (state: RootState) => state.cart.products
   );
   console.log(productsInCart, "===products in cart");
-  const [currentImage, setCurrentImage] = useState<string | undefined>(
-    currentProduct?.image
-  );
 
   // adding product to cart
   const handleAddCart = (currentProduct: Products) => {
@@ -81,7 +78,6 @@ const SingleProductPage = () => {
                     <div
                       key={`image${index}`}
                       className="border border-slate-200 rounded-sm p-1 hover:border-primary"
-                      onClick={() => setCurrentImage(currentProduct?.image)}
                     >
                       <img
                         className="w-24 h-24 object-contain"
