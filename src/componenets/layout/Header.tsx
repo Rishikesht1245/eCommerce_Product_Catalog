@@ -2,13 +2,17 @@ import { headerLinks } from "../../constants/links";
 import logo from "../../assets/images/logo.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FormEvent, useState } from "react";
+import { useDispatch } from "react-redux";
+import { currentUserActions } from "../../store/currentUserSlice";
+import { getLocalData } from "../../utils/localStorage";
 
-const Header = ({ isAuth, setAuth }: Props) => {
-  // current users state (logged in or not need to implemented later)
-  const currentUser = true;
+const Header = () => {
+  const isAuth: boolean = getLocalData();
   const [searchTerm, setSearchTerm] = useState<string | "">("");
   const [toggleMobile, setToggleMobile] = useState<boolean>(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   // Handle search - pending waiting for API endpoint
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -16,8 +20,8 @@ const Header = ({ isAuth, setAuth }: Props) => {
     // searching needs to be implemented later
   };
 
-  const handleSignOut = () => {
-    setAuth(false, "logout");
+  const handleLogout = () => {
+    dispatch(currentUserActions?.logout());
     navigate("/login");
   };
 
@@ -103,7 +107,7 @@ const Header = ({ isAuth, setAuth }: Props) => {
                   </NavLink>
                   <button
                     className="hidden w-[100px] group-hover:flex absolute top-[30px] right-2 bg-gray-200 px-4 py-2"
-                    onClick={handleSignOut}
+                    onClick={handleLogout}
                   >
                     Sign Out
                   </button>
@@ -185,7 +189,7 @@ const Header = ({ isAuth, setAuth }: Props) => {
             </NavLink>
           </li>
           <li>
-            {currentUser ? (
+            {isAuth ? (
               <NavLink
                 to="/sign-in"
                 className={(navClass) =>
@@ -214,10 +218,5 @@ const Header = ({ isAuth, setAuth }: Props) => {
     </>
   );
 };
-
-interface Props {
-  isAuth: boolean;
-  setAuth: (value: boolean, action: "login" | "logout") => null;
-}
 
 export default Header;

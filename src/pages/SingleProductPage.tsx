@@ -5,19 +5,19 @@ import { fetchSingleProduct } from "../store/productSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewSlider from "../componenets/UI/ReviewSlider";
 import { reviews } from "../constants/dummy";
-import useAuthData from "../customHooks/useAuthData";
 import { CartProduct, ProductState, Products } from "../interfaces/products";
 import Loader from "../componenets/UI/Loader";
 import Button from "../componenets/UI/Button";
 import { cartActions } from "../store/cartSlice";
 import toast from "react-hot-toast";
+import { getLocalData } from "../utils/localStorage";
 
 const SingleProductPage = () => {
   const params: { id?: string } = useParams();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [auth] = useAuthData();
+  const auth = getLocalData();
 
   //   dispatching the action to fetch the products
   useEffect(() => {

@@ -1,17 +1,22 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import LoginForm from "../componenets/form/LoginForm";
-import useAuthData from "../customHooks/useAuthData";
 import { ILogin } from "../interfaces/products";
+import { useDispatch } from "react-redux";
+import { currentUserActions } from "../store/currentUserSlice";
+import { getLocalData } from "../utils/localStorage";
 
 const SignInPage = () => {
-  const [auth, setAuthData] = useAuthData();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const auth = getLocalData();
 
   // checking if users is logged in
   if (auth) return <Navigate to={`/`} />;
 
   const loginHandler = (auth: boolean) => {
-    console.log(auth);
-    setAuthData(auth, "login");
+    dispatch(currentUserActions?.login(auth));
+    navigate("/");
   };
 
   const login = (formData: ILogin): Promise<any> => {
