@@ -1,9 +1,8 @@
 import { Outlet } from "react-router-dom";
-import useAuthData from "../customHooks/useAuthData";
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = () => {
-  const [auth] = useAuthData();
+  const auth = JSON.parse(localStorage.getItem("auth")!);
 
   return auth ? <Outlet /> : <Navigate to="/login" />;
 };

@@ -22,6 +22,7 @@ const useAuthData = (): UseAuthDataReturnType => {
       localStorage.setItem("auth", JSON.stringify(value));
     } else if (action === "logout") {
       localStorage.removeItem("auth");
+      setAuth(false);
     }
     return null;
   };

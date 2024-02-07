@@ -1,19 +1,24 @@
 import { headerLinks } from "../../constants/links";
 import logo from "../../assets/images/logo.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FormEvent, useState } from "react";
 
-const Header = ({ isAuth }: Props) => {
+const Header = ({ isAuth, setAuth }: Props) => {
   // current users state (logged in or not need to implemented later)
   const currentUser = true;
   const [searchTerm, setSearchTerm] = useState<string | "">("");
   const [toggleMobile, setToggleMobile] = useState<boolean>(false);
-
+  const navigate = useNavigate();
   // Handle search - pending waiting for API endpoint
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     // searching needs to be implemented later
+  };
+
+  const handleSignOut = () => {
+    setAuth(false, "logout");
+    navigate("/login");
   };
 
   return (
@@ -86,15 +91,23 @@ const Header = ({ isAuth }: Props) => {
             </li>
             <li>
               {isAuth ? (
-                <NavLink to="/profile">
-                  <img
-                    className="rounded-full h-9 w-9 object-cover"
-                    src={
-                      "https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
-                    }
-                    alt="User avatar"
-                  />
-                </NavLink>
+                <div className="group relative w-full">
+                  <NavLink to="/profile">
+                    <img
+                      className="rounded-full h-9 w-9 object-cover"
+                      src={
+                        "https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
+                      }
+                      alt="User avatar"
+                    />
+                  </NavLink>
+                  <button
+                    className="hidden w-[100px] group-hover:flex absolute top-[30px] right-2 bg-gray-200 px-4 py-2"
+                    onClick={handleSignOut}
+                  >
+                    Sign Out
+                  </button>
+                </div>
               ) : (
                 <NavLink
                   to="/login"
@@ -204,6 +217,7 @@ const Header = ({ isAuth }: Props) => {
 
 interface Props {
   isAuth: boolean;
+  setAuth: (value: boolean, action: "login" | "logout") => null;
 }
 
 export default Header;

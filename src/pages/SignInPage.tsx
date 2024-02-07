@@ -1,11 +1,9 @@
-import { Link, useNavigate, Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import LoginForm from "../componenets/form/LoginForm";
 import useAuthData from "../customHooks/useAuthData";
 import { ILogin } from "../interfaces/products";
 
 const SignInPage = () => {
-  const navigate = useNavigate();
-
   const [auth, setAuthData] = useAuthData();
 
   // checking if users is logged in

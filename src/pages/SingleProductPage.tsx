@@ -6,9 +6,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import ReviewSlider from "../componenets/UI/ReviewSlider";
 import { reviews } from "../constants/dummy";
 import useAuthData from "../customHooks/useAuthData";
-import { ProductState } from "../interfaces/products";
+import { CartProduct, ProductState, Products } from "../interfaces/products";
 import Loader from "../componenets/UI/Loader";
 import Button from "../componenets/UI/Button";
+import { cartActions } from "../store/cartSlice";
+import toast from "react-hot-toast";
 
 const SingleProductPage = () => {
   const params: { id?: string } = useParams();
@@ -28,13 +30,29 @@ const SingleProductPage = () => {
     loading,
     error,
   }: ProductState = useSelector((state: RootState) => state.singleProduct);
+
+  const productsInCart: CartProduct[] = useSelector(
+    (state: RootState) => state.cart.products
+  );
+  console.log(productsInCart, "===products in cart");
   const [currentImage, setCurrentImage] = useState<string | undefined>(
     currentProduct?.image
   );
 
-  const handleAddCart = () => {
+  // adding product to cart
+  const handleAddCart = (currentProduct: Products) => {
     if (auth) {
-      // implement function to save the product data in cart
+      // If product already exists in cart
+      const productExist = productsInCart?.findIndex(
+        (product) => product?.id === currentProduct?.id
+      );
+      if (productExist >= 0) {
+        dispatch(cartActions.increaseQuantity(currentProduct?.id));
+        toast.success("Product quantity increased");
+      } else {
+        dispatch(cartActions.addProduct({ ...currentProduct!, quantity: 1 }));
+        toast.success("Product added successfully");
+      }
     } else {
       navigate("/login");
     }
@@ -124,7 +142,10 @@ const SingleProductPage = () => {
                     {`${currentProduct?.category}`}
                   </p>
                 </div>
-                <Button type="button" onClick={handleAddCart}>
+                <Button
+                  type="button"
+                  onClick={() => handleAddCart(currentProduct!)}
+                >
                   Add to Cart
                 </Button>
               </div>

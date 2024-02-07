@@ -9,8 +9,8 @@ const initialState: InitialState = {
   products: [],
 };
 
-export const productSlice = createSlice({
-  name: "ProductSlice",
+export const cartSlice = createSlice({
+  name: "CartSlice",
   initialState,
   reducers: {
     addProduct: (state, action: PayloadAction<CartProduct>) => {
@@ -37,3 +37,5 @@ export const productSlice = createSlice({
     },
   },
 });
+
+export const cartActions = cartSlice.actions;

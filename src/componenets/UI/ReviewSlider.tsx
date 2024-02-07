@@ -5,7 +5,6 @@ import "swiper/css/pagination";
 import { Reviews } from "../../constants/dummy";
 
 const ReviewSlider = ({ reviews }: { reviews: Reviews[] }) => {
-  console.log(reviews, "=== review");
   return (
     <div className="mt-[10px]">
       <Swiper
@@ -29,7 +28,7 @@ const ReviewSlider = ({ reviews }: { reviews: Reviews[] }) => {
         }}
       >
         {reviews?.map((review) => (
-          <SwiperSlide>
+          <SwiperSlide key={review?.ratingId}>
             <div className="py-[30px] px-5 rounded-3 bg-gray-100 hover:shadow-2xl hover:bg-slate-200 rounded-lg">
               <div className="flex items-center gap-[13px]">
                 <img
