@@ -51,7 +51,7 @@ These instructions will help you set up the project on your local machine for de
 
 ## Test Credentials
 
-**Email:** test@example.com  
-**Password:** password123
+**Email:** test@gmail.com  
+**Password:** test@1234
 
-**Note:** These credentials are for testing purposes only. Do not use them with any real accounts or services. Replace them with your own credentials when deploying to production environments.
+**Note:** These credentials are for testing purposes only.
