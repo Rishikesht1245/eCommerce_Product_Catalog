@@ -1,4 +1,4 @@
-# Aloha
+# eCommerce Product Catalog
 
 The project is a responsive eCommerce Product Catalog build using React JS
 
@@ -49,9 +49,9 @@ These instructions will help you set up the project on your local machine for de
    npm run build
    ```
 
-   5. Test Credentials
+## Test Credentials
 
-   ```bash
-   Email : test@gmail.com
-   Password : test@1234
-   ```
+**Email:** test@example.com  
+**Password:** password123
+
+**Note:** These credentials are for testing purposes only. Do not use them with any real accounts or services. Replace them with your own credentials when deploying to production environments.
