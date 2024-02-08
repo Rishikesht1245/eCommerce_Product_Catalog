@@ -110,26 +110,29 @@ const CatalogPage = () => {
       // Apply type filtering
       if (!formData.all) {
         filteredProducts = filteredProducts.filter((product: Products) => {
-          if (formData.men && product.category?.toLowerCase()?.includes("men"))
+          if (
+            formData.men &&
+            product.category?.toLowerCase()?.startsWith("men")
+          )
             return true;
           if (
             formData.women &&
-            product.category?.toLowerCase()?.includes("women")
+            product.category?.toLowerCase()?.startsWith("women")
           )
             return true;
           if (
             formData.kids &&
-            product.category?.toLowerCase()?.includes("kids")
+            product.category?.toLowerCase()?.startsWith("kids")
           )
             return true;
           if (
             formData.jewelery &&
-            product.category?.toLowerCase()?.includes("jewelery")
+            product.category?.toLowerCase()?.startsWith("jewelery")
           )
             return true;
           if (
             formData.electronics &&
-            product.category?.toLowerCase()?.includes("electronics")
+            product.category?.toLowerCase()?.startsWith("electronics")
           )
             return true;
           if (
@@ -172,8 +175,6 @@ const CatalogPage = () => {
     }
   };
 
-  console.log(listings, "===listings");
-
   return (
     <div className="flex flex-col md:flex-row md:justify-between w-full">
       {/* left side section */}
@@ -183,7 +184,7 @@ const CatalogPage = () => {
           onSubmit={(formData, { setSubmitting }) => {
             setSubmitting(true);
             handleSubmit(formData)
-              .then(() => console.log(listings))
+              .then(() => null)
               .catch((error) => {
                 console.log(error);
                 setError(true);

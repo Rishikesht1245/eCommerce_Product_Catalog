@@ -32,7 +32,6 @@ const SingleProductPage = () => {
   const productsInCart: CartProduct[] = useSelector(
     (state: RootState) => state.cart.products
   );
-  console.log(productsInCart, "===products in cart");
 
   // adding product to cart
   const handleAddCart = (currentProduct: Products) => {
