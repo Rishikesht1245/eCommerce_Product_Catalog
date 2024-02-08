@@ -2,7 +2,7 @@
 
 The project is a responsive eCommerce Product Catalog build using React JS
 
-***https://ecommercepcatalog.netlify.app/***
+***https://ecomproductcatalog.netlify.app/***
 
 ## Technologies Used
 

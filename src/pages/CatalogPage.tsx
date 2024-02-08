@@ -165,7 +165,6 @@ const CatalogPage = () => {
       }
 
       // Update listings state with filtered and sorted products
-      console.log(filteredProducts, "===filtered Products");
       setListings(filteredProducts.slice(0, 9));
       setLoading(false);
     } catch (error) {
