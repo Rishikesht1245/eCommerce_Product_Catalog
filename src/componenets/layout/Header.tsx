@@ -167,6 +167,7 @@ const Header = () => {
             <li key={link.title}>
               <NavLink
                 to={link.link}
+                onClick={() => setToggleMobile((prev) => !prev)}
                 className={(navClass) =>
                   navClass.isActive
                     ? "text-slate-700 text-[18px] font-semibold hover:underline"
@@ -180,6 +181,7 @@ const Header = () => {
           <li>
             <NavLink
               to="/cart"
+              onClick={() => setToggleMobile((prev) => !prev)}
               className={(navClass) =>
                 navClass.isActive
                   ? "text-slate-700 text-[18px] font-semibold hover:underline"
@@ -192,6 +194,7 @@ const Header = () => {
           </li>
           <li>
             <NavLink
+              onClick={() => setToggleMobile((prev) => !prev)}
               to="/wishlist"
               className={(navClass) =>
                 navClass.isActive
@@ -206,6 +209,7 @@ const Header = () => {
             {isAuth ? (
               <NavLink
                 to="/sign-in"
+                onClick={() => setToggleMobile((prev) => !prev)}
                 className={(navClass) =>
                   navClass.isActive
                     ? "text-slate-700 text-[18px] font-semibold hover:underline"
@@ -217,10 +221,11 @@ const Header = () => {
             ) : (
               <NavLink
                 to="/sign-in"
+                onClick={() => setToggleMobile((prev) => !prev)}
                 className={(navClass) =>
                   navClass.isActive
-                    ? "text-slate-700 text-[18px] sm:text-[16px] font-semibold hover:underline"
-                    : "text-slate-500 text-[18px]sm:text-[16px] font-semibold hover:underline"
+                    ? "text-slate-700 text-[18px]  font-semibold hover:underline"
+                    : "text-slate-500 text-[18px]  font-semibold hover:underline"
                 }
               >
                 Sign In
