@@ -1,24 +1,38 @@
 import { headerLinks } from "../../constants/links";
 import logo from "../../assets/images/logo.png";
-import { NavLink, useNavigate } from "react-router-dom";
-import { FormEvent, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { currentUserActions } from "../../store/currentUserSlice";
 import { getLocalData } from "../../utils/localStorage";
 
 const Header = () => {
   const isAuth: boolean = getLocalData();
-  const [searchTerm, setSearchTerm] = useState<string | "">("");
   const [toggleMobile, setToggleMobile] = useState<boolean>(false);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Handle search - pending waiting for API endpoint
+  // Implementing client side searching
+  const [searchTerm, setSearchTerm] = useState<string | "">("");
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (!searchTerm) return null;
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
 
-    // searching needs to be implemented later
+    const searchQuery = urlParams.toString();
+    navigate(`/products?${searchQuery}`);
   };
+  // this function will change the input in the search box when user modifies the searchTerm Query from the URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [window.location.search]);
 
   const handleLogout = () => {
     dispatch(currentUserActions?.logout());
@@ -155,8 +169,8 @@ const Header = () => {
                 to={link.link}
                 className={(navClass) =>
                   navClass.isActive
-                    ? "text-slate-700 text-[20px] font-semibold hover:underline"
-                    : "text-slate-500 text-[20px] font-semibold hover:underline"
+                    ? "text-slate-700 text-[18px] font-semibold hover:underline"
+                    : "text-slate-500 text-[18px] font-semibold hover:underline"
                 }
               >
                 {link.title}
@@ -168,8 +182,8 @@ const Header = () => {
               to="/cart"
               className={(navClass) =>
                 navClass.isActive
-                  ? "text-slate-700 text-[16px] font-semibold hover:underline"
-                  : "text-slate-500 text-[16px] font-semibold hover:underline"
+                  ? "text-slate-700 text-[18px] font-semibold hover:underline"
+                  : "text-slate-500 text-[18px] font-semibold hover:underline"
               }
             >
               {/* Hand burger menu for small devices */}
@@ -181,8 +195,8 @@ const Header = () => {
               to="/wishlist"
               className={(navClass) =>
                 navClass.isActive
-                  ? "text-slate-700 text-[16px] font-semibold hover:underline"
-                  : "text-slate-500 text-[16px] font-semibold hover:underline"
+                  ? "text-slate-700 text-[18px] font-semibold hover:underline"
+                  : "text-slate-500 text-[18px] font-semibold hover:underline"
               }
             >
               Wishilist
@@ -194,8 +208,8 @@ const Header = () => {
                 to="/sign-in"
                 className={(navClass) =>
                   navClass.isActive
-                    ? "text-slate-700 text-[16px] font-semibold hover:underline"
-                    : "text-slate-500 text-[16px] font-semibold hover:underline"
+                    ? "text-slate-700 text-[18px] font-semibold hover:underline"
+                    : "text-slate-500 text-[18px] font-semibold hover:underline"
                 }
               >
                 Profile
@@ -205,8 +219,8 @@ const Header = () => {
                 to="/sign-in"
                 className={(navClass) =>
                   navClass.isActive
-                    ? "text-slate-700 text-14px sm:text-[16px] font-semibold hover:underline"
-                    : "text-slate-500 text-14px sm:text-[16px] font-semibold hover:underline"
+                    ? "text-slate-700 text-[18px] sm:text-[16px] font-semibold hover:underline"
+                    : "text-slate-500 text-[18px]sm:text-[16px] font-semibold hover:underline"
                 }
               >
                 Sign In

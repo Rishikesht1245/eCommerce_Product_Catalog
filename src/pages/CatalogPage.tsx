@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Form, Formik } from "formik";
 import Input from "../componenets/form/Input";
 import CheckBox from "../componenets/form/CheckBox";
 import SelectInput from "../componenets/form/SelectInput";
 import Button from "../componenets/UI/Button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Loader from "../componenets/UI/Loader";
 import ProductCard from "../componenets/UI/ProductCard";
 import { Products } from "../interfaces/products";
@@ -23,11 +23,22 @@ const CatalogPage = () => {
     () => [
       { text: "Price high to low", value: "regularPrice_desc" },
       { text: "Price low to high", value: "regularPrice_asc" },
-      { text: "Latest", value: "createdAt_desc" },
-      { text: "Oldest", value: "createdAt_asc" },
+      { text: "Top rating", value: "top_rating" },
     ],
     []
   );
+
+  interface InitialState {
+    searchTerm: string;
+    all: boolean;
+    men: boolean;
+    women: boolean;
+    kids: boolean;
+    jewelery: boolean;
+    electronics: boolean;
+    sort: string;
+    order: string;
+  }
 
   const initialValues = {
     searchTerm: "",
@@ -35,37 +46,133 @@ const CatalogPage = () => {
     men: false,
     women: false,
     kids: false,
-    appliances: false,
+    jewelery: false,
     electronics: false,
     sort: "createdAt",
     order: "desc",
   };
 
-  // Fetching Products - useCallback and useEffect is needed
-
-  const fetchProducts = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = await fetchProductsAPI();
-      setProducts(data?.data);
-      // for show more button
-      setListings(data?.data?.slice(0, 9));
-    } catch (error) {
-      console.log(error);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  // Implementing client side searching Header
+  const location = useLocation();
 
   useEffect(() => {
+    // Retrieve search term from URL parameter
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromURL = urlParams.get("searchTerm");
+
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchProductsAPI();
+        setProducts(data?.data);
+        if (searchTermFromURL) {
+          // Filter products based on search term if available
+          setListings(
+            data?.data?.filter((product: Products) =>
+              product?.title
+                ?.toLowerCase()
+                .includes(searchTermFromURL?.toLowerCase())
+            )
+          );
+        } else {
+          setListings(data?.data?.slice(0, 9));
+        }
+      } catch (error) {
+        console.log(error);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchProducts();
-  }, []);
+  }, [location.search]);
 
   const handleShowMore = () => {
     setListings(products?.slice(0));
     setShowMore(false);
   };
+
+  const handleSubmit = async (formData: InitialState) => {
+    try {
+      setLoading(true);
+
+      // Filter products based on search term
+      let filteredProducts = products;
+      if (formData.searchTerm) {
+        filteredProducts = filteredProducts.filter((product: Products) =>
+          product.title
+            .toLowerCase()
+            .includes(formData.searchTerm.toLowerCase())
+        );
+      }
+
+      // Apply type filtering
+      if (!formData.all) {
+        filteredProducts = filteredProducts.filter((product: Products) => {
+          if (formData.men && product.category?.toLowerCase()?.includes("men"))
+            return true;
+          if (
+            formData.women &&
+            product.category?.toLowerCase()?.includes("women")
+          )
+            return true;
+          if (
+            formData.kids &&
+            product.category?.toLowerCase()?.includes("kids")
+          )
+            return true;
+          if (
+            formData.jewelery &&
+            product.category?.toLowerCase()?.includes("jewelery")
+          )
+            return true;
+          if (
+            formData.electronics &&
+            product.category?.toLowerCase()?.includes("electronics")
+          )
+            return true;
+          if (
+            !formData?.men &&
+            !formData?.all &&
+            !formData?.women &&
+            !formData?.electronics &&
+            !formData?.jewelery &&
+            !formData?.kids
+          )
+            return true;
+          return false;
+        });
+      }
+
+      // Sort products
+      if (formData.sort === "regularPrice_desc") {
+        filteredProducts = filteredProducts.sort(
+          (a: Products, b: Products) => b.price - a.price
+        );
+      } else if (formData.sort === "regularPrice_asc") {
+        filteredProducts = filteredProducts.sort(
+          (a: Products, b: Products) => a.price - b.price
+        );
+      } else if (formData.sort === "top_rating") {
+        // Assuming a top rating property exists in the product object
+        filteredProducts = filteredProducts.sort(
+          (a: Products, b: Products) => b.rating?.rate - a.rating?.rate
+        );
+      }
+
+      // Update listings state with filtered and sorted products
+      console.log(filteredProducts, "===filtered Products");
+      setListings(filteredProducts.slice(0, 9));
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setError(true);
+      setLoading(false);
+    }
+  };
+
+  console.log(listings, "===listings");
 
   return (
     <div className="flex flex-col md:flex-row md:justify-between w-full">
@@ -75,8 +182,13 @@ const CatalogPage = () => {
           initialValues={initialValues}
           onSubmit={(formData, { setSubmitting }) => {
             setSubmitting(true);
-            console.log(formData);
-            setSubmitting(false);
+            handleSubmit(formData)
+              .then(() => console.log(listings))
+              .catch((error) => {
+                console.log(error);
+                setError(true);
+              })
+              .finally(() => setSubmitting(false));
           }}
         >
           {({ isSubmitting }) => (
@@ -112,8 +224,8 @@ const CatalogPage = () => {
                   Amenities :
                 </label>{" "}
                 <CheckBox
-                  name="appliances"
-                  placeholder={"Appliances"}
+                  name="jewelery"
+                  placeholder={"Jewelery"}
                   className={"flex items-center justify-between"}
                 />
                 <CheckBox
@@ -174,7 +286,7 @@ const CatalogPage = () => {
             </div>
           )}
         </div>
-        {showMore && (
+        {listings?.length > 0 && showMore && (
           <div className="w-full flex justify-center">
             <Button
               type="button"
